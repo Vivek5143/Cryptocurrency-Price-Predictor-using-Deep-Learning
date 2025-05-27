@@ -36,7 +36,7 @@ This project focuses on predicting Bitcoin prices using deep learning models —
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/bitcoin-price-prediction.git
+   git clone https://github.com/desaiyash21/bitcoin-price-prediction.git
    cd bitcoin-price-prediction
 2. **Install dependencies**
    ```bash
