@@ -1,24 +1,29 @@
 
 # 🪙 Bitcoin Price Prediction using RNN, GRU, and LSTM
 
-This project focuses on predicting Bitcoin prices using deep learning models — RNN, GRU, and LSTM — trained on historical time-series data. The LSTM model achieved the best performance and is showing predictions via an interactive **Streamlit** web interface.
+This project focuses on predicting Bitcoin prices using deep learning models — **RNN**, **GRU**, and **LSTM** — trained on historical time-series data. The **LSTM model** achieved the best performance and is showcased through an interactive **Streamlit** web interface.
 
-##  Project Highlights
+---
 
--  Developed and compared RNN, GRU, and LSTM models.
--  LSTM achieved the lowest RMSE: **1907** vs. **2580+** (RNN/GRU).
--  Built a **Streamlit** web app to visualize LSTM predictions in real-time.
--  Captures long-term dependencies effectively for time-series forecasting.
+## 🚀 Project Highlights
 
-## Tech Stack
+- Developed and compared RNN, GRU, and LSTM models.
+- LSTM achieved the lowest RMSE: **1907** vs. **2580+** (RNN/GRU).
+- Built a Streamlit web app to visualize LSTM predictions in real-time.
+- Captures long-term dependencies effectively for time-series forecasting.
 
-- Python
-- TensorFlow / Keras
-- NumPy / Pandas / Matplotlib
-- Streamlit
+---
 
+## 🧰 Tech Stack
 
-##  Model Evaluation
+- **Python 3.10**
+- **TensorFlow / Keras**
+- **NumPy / Pandas / Matplotlib**
+- **Streamlit**
+
+---
+
+## 📊 Model Evaluation
 
 | Model | RMSE   |
 |-------|--------|
@@ -26,9 +31,15 @@ This project focuses on predicting Bitcoin prices using deep learning models —
 | GRU   | ~2600  |
 | LSTM  | **1907** |
 
+---
+
+## 📸 Screenshots
+
 ![bitcoin1](https://github.com/user-attachments/assets/30367208-23fb-4c7e-8b37-3cbdddbf2d28)
 ![bitcoin2](https://github.com/user-attachments/assets/d2449f5f-2858-4936-b92a-bb57d67fbf4b)
 ![bitcoin3](https://github.com/user-attachments/assets/07394acd-f05b-4ccc-9af2-bade9042abd1)
+
+---
 
 
 
