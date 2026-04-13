@@ -1,4 +1,8 @@
 notes.txt
 crypto_model.keras
 .ipynb_checkpoints/
+.venv/
+__pycache__/
+streamlit.out.log
+streamlit.err.log
 

@@ -1,57 +1,104 @@
+# Bitcoin Price Prediction with LSTM and HMM Regime AI
 
-# 🪙 Bitcoin Price Prediction using RNN, GRU, and LSTM
+This project predicts Bitcoin prices with a deep learning **LSTM** model and upgrades the analysis with a **Hidden Markov Model (HMM)** that detects hidden market regimes such as bull, bear, sideways, and high-volatility phases.
 
-This project focuses on predicting Bitcoin prices using deep learning models — **RNN**, **GRU**, and **LSTM** — trained on historical time-series data. The **LSTM model** achieved the best performance and is showcased through an interactive **Streamlit** web interface.
+The result is a more advanced AI project: instead of showing only a future price line, the app now also explains **what type of market the model believes Bitcoin is in** and adapts forecast uncertainty using the detected regime.
 
----
+## Project Highlights
 
-## 🚀 Project Highlights
+- Forecasts Bitcoin closing prices with an LSTM model.
+- Detects hidden market states using a Gaussian Hidden Markov Model.
+- Uses multi-signal regime features:
+  - log returns
+  - 7-day rolling volatility
+  - intraday range
+  - volume change
+- Visualizes market regimes directly on the BTC price chart.
+- Shows current regime probabilities and the HMM transition matrix.
+- Builds a regime-aware uncertainty band around the future forecast.
 
-- Developed and compared RNN, GRU, and LSTM models.
-- LSTM achieved the lowest RMSE: **1907** vs. **2580+** (RNN/GRU).
-- Built a Streamlit web app to visualize LSTM predictions in real-time.
-- Captures long-term dependencies effectively for time-series forecasting.
+## Why This Is More Advanced
 
----
+Traditional price prediction apps usually output a single forecast curve.
 
-## 🧰 Tech Stack
+This project now combines:
 
-- **Python 3.10**
-- **TensorFlow / Keras**
-- **NumPy / Pandas / Matplotlib**
-- **Streamlit**
+- **Sequence modeling** with LSTM for forecasting
+- **Probabilistic state modeling** with HMM for regime detection
+- **Explainable market context** through state summaries and transition probabilities
 
----
+That makes the project feel closer to a real-world financial AI dashboard instead of a basic single-model demo.
 
-## 📊 Model Evaluation
+## Tech Stack
 
-| Model | RMSE   |
-|-------|--------|
-| RNN   | ~2580  |
-| GRU   | ~2600  |
-| LSTM  | **1907** |
+- Python 3.10+
+- TensorFlow / Keras
+- hmmlearn
+- NumPy / Pandas / scikit-learn
+- Plotly
+- Streamlit
+- yfinance
 
----
+## App Features
 
-## 📸 Screenshots
+### 1. Dashboard & Analysis
+- Candlestick chart
+- 50-day and 200-day moving averages
+- Live BTC price metrics
 
-![bitcoin1](https://github.com/user-attachments/assets/30367208-23fb-4c7e-8b37-3cbdddbf2d28)
-![bitcoin2](https://github.com/user-attachments/assets/d2449f5f-2858-4936-b92a-bb57d67fbf4b)
-![bitcoin3](https://github.com/user-attachments/assets/07394acd-f05b-4ccc-9af2-bade9042abd1)
+### 2. AI Predictions
+- Future Bitcoin price forecast using LSTM
+- Downloadable forecast table
+- Regime-aware uncertainty band scaled by HMM volatility
 
----
+### 3. HMM Regime AI
+- Hidden regime detection across historical BTC data
+- Current regime probability view
+- Regime transition matrix
+- Regime summary table with returns, volatility, and confidence
 
+### 4. Hybrid Model Info
+- Shows how LSTM forecasting and HMM regime detection work together
 
+## How the HMM Works
 
-## 🛠️ How to Run Locally
+The HMM is trained on engineered BTC market features and learns hidden states without manual labels.
 
-1. **Clone the repository**
+After training, each hidden state is interpreted as one of the following:
+
+- Bull Trend
+- Bear Trend
+- High Volatility
+- Sideways / Accumulation
+
+These inferred states are then used to:
+
+- explain the current market condition
+- visualize when the market changed state
+- widen or tighten the forecast uncertainty band
+
+## How to Run Locally
+
+1. Clone the repository
    ```bash
    git clone https://github.com/desaiyash21/bitcoin-price-prediction.git
    cd bitcoin-price-prediction
-2. **Install dependencies**
+   ```
+
+2. Install dependencies
    ```bash
    pip install -r requirements.txt
-3. **Run the Streamlit app**
+   ```
+
+3. Run the Streamlit app
    ```bash
    streamlit run app.py
+   ```
+
+## Future Improvements
+
+- Train regime-specific LSTM models
+- Add sentiment and macroeconomic features
+- Add backtesting for each detected regime
+- Compare HMM with GMM and Bayesian forecasting
+- Add anomaly detection with a VAE
