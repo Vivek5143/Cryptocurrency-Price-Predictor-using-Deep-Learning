@@ -17,11 +17,28 @@ st.set_page_config(
 
 TIME_STEP = 60
 DEFAULT_HMM_STATES = 4
+THEME = {
+    "bg_top": "#F8FBFF",
+    "bg_bottom": "#EEF4FB",
+    "surface": "#FFFFFF",
+    "surface_alt": "#F3F8FF",
+    "border": "#D7E3F1",
+    "text": "#10233D",
+    "muted": "#5E7188",
+    "primary": "#2563EB",
+    "primary_soft": "rgba(37, 99, 235, 0.12)",
+    "success": "#16A34A",
+    "danger": "#DC2626",
+    "warning": "#D97706",
+    "secondary": "#64748B",
+    "grid": "#DCE7F3",
+    "transparent": "rgba(255,255,255,0)",
+}
 REGIME_PALETTE = {
-    "Bull Trend": "#43AA8B",
-    "Bear Trend": "#F94144",
-    "High Volatility": "#F8961E",
-    "Sideways / Accumulation": "#577590",
+    "Bull Trend": THEME["success"],
+    "Bear Trend": THEME["danger"],
+    "High Volatility": THEME["warning"],
+    "Sideways / Accumulation": THEME["secondary"],
 }
 REGIME_DESCRIPTIONS = {
     "Bull Trend": "Momentum and returns are positive, suggesting trend continuation conditions.",
@@ -31,40 +48,48 @@ REGIME_DESCRIPTIONS = {
 }
 
 # --- CUSTOM CSS FOR ADVANCED LOOK ---
-st.markdown(
-    """
+CUSTOM_CSS = """
     <style>
     [data-testid="stAppViewContainer"] {
         background:
-            radial-gradient(circle at top left, rgba(88, 166, 255, 0.08), transparent 32%),
-            radial-gradient(circle at bottom right, rgba(67, 170, 139, 0.08), transparent 30%),
-            #0E1117;
-        color: #C9D1D9;
+            radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 34%),
+            radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.08), transparent 32%),
+            linear-gradient(180deg, __BG_TOP__ 0%, __BG_BOTTOM__ 100%);
+        color: __TEXT__;
     }
     [data-testid="stSidebar"] {
-        background-color: #161B22;
-        border-right: 1px solid #30363D;
+        background: linear-gradient(180deg, __SURFACE__ 0%, __SURFACE_ALT__ 100%);
+        border-right: 1px solid __BORDER__;
+    }
+    [data-testid="stSidebar"] * {
+        color: __TEXT__;
+    }
+    [data-testid="stHeader"] {
+        background: rgba(248, 251, 255, 0.8);
+    }
+    .stMarkdown, p, label, .stCaption, .stSelectbox label, .stSlider label {
+        color: __TEXT__;
     }
     .metric-container {
-        background-color: rgba(22, 27, 34, 0.88);
-        border: 1px solid #30363D;
+        background-color: rgba(255, 255, 255, 0.94);
+        border: 1px solid __BORDER__;
         padding: 15px;
         border-radius: 12px;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 12px 30px rgba(37, 99, 235, 0.08);
         margin-bottom: 20px;
     }
     .metric-value {
         font-size: 24px;
         font-weight: bold;
-        color: #58A6FF;
+        color: __PRIMARY__;
     }
     .metric-label {
         font-size: 14px;
-        color: #8B949E;
+        color: __MUTED__;
     }
     .insight-card {
-        background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(67, 170, 139, 0.12));
-        border: 1px solid rgba(88, 166, 255, 0.24);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(14, 165, 233, 0.10));
+        border: 1px solid rgba(37, 99, 235, 0.16);
         border-radius: 14px;
         padding: 18px;
         margin-bottom: 18px;
@@ -72,21 +97,21 @@ st.markdown(
     .insight-title {
         font-size: 16px;
         font-weight: 600;
-        color: #F0F6FC;
+        color: __TEXT__;
         margin-bottom: 8px;
     }
     .regime-chip {
         display: inline-block;
         padding: 6px 10px;
         border-radius: 999px;
-        background: rgba(88, 166, 255, 0.16);
-        border: 1px solid rgba(88, 166, 255, 0.35);
-        color: #F0F6FC;
+        background: __PRIMARY_SOFT__;
+        border: 1px solid rgba(37, 99, 235, 0.18);
+        color: __TEXT__;
         font-size: 13px;
         margin-top: 8px;
     }
     h1, h2, h3 {
-        color: #F0F6FC;
+        color: __TEXT__;
     }
     .stTabs [data-baseweb="tab-list"] {
         gap: 24px;
@@ -94,18 +119,53 @@ st.markdown(
     .stTabs [data-baseweb="tab"] {
         height: 50px;
         white-space: pre-wrap;
-        background-color: transparent;
+        background-color: rgba(255, 255, 255, 0.7);
         border-radius: 4px 4px 0 0;
         gap: 1px;
         padding-top: 10px;
         padding-bottom: 10px;
+        color: __MUTED__;
+        border: 1px solid transparent;
     }
     .stTabs [aria-selected="true"] {
-        background-color: rgba(88, 166, 255, 0.1);
-        border-bottom: 2px solid #58A6FF;
+        background-color: __PRIMARY_SOFT__;
+        border: 1px solid rgba(37, 99, 235, 0.16);
+        border-bottom: 2px solid __PRIMARY__;
+        color: __TEXT__;
+    }
+    .stButton > button, .stDownloadButton > button {
+        background: __PRIMARY__;
+        color: white;
+        border: 1px solid __PRIMARY__;
+        border-radius: 10px;
+    }
+    .stButton > button:hover, .stDownloadButton > button:hover {
+        background: #1D4ED8;
+        border-color: #1D4ED8;
+        color: white;
+    }
+    .stSelectbox div[data-baseweb="select"] > div,
+    .stNumberInput input,
+    .stTextInput input {
+        background: __SURFACE__;
+        color: __TEXT__;
+        border-color: __BORDER__;
+    }
+    .stDataFrame, div[data-testid="stMetric"] {
+        border-radius: 12px;
     }
     </style>
-    """,
+"""
+st.markdown(
+    CUSTOM_CSS.replace("__BG_TOP__", THEME["bg_top"])
+    .replace("__BG_BOTTOM__", THEME["bg_bottom"])
+    .replace("__SURFACE__", THEME["surface"])
+    .replace("__SURFACE_ALT__", THEME["surface_alt"])
+    .replace("__BORDER__", THEME["border"])
+    .replace("__TEXT__", THEME["text"])
+    .replace("__MUTED__", THEME["muted"])
+    .replace("__PRIMARY__", THEME["primary"])
+    .replace("__PRIMARY_SOFT__", THEME["primary_soft"]),
     unsafe_allow_html=True,
 )
 
@@ -228,7 +288,7 @@ def detect_market_regimes(data, n_states=DEFAULT_HMM_STATES):
     regime_labels = label_hidden_states(state_stats)
     state_stats["Regime"] = state_stats.index.map(regime_labels)
     state_stats = state_stats.sort_values("avg_return").reset_index()
-    state_stats["Color"] = state_stats["Regime"].map(REGIME_PALETTE).fillna("#58A6FF")
+    state_stats["Color"] = state_stats["Regime"].map(REGIME_PALETTE).fillna(THEME["primary"])
 
     state_to_regime = state_stats.set_index("State")["Regime"].to_dict()
     state_to_color = state_stats.set_index("State")["Color"].to_dict()
@@ -276,6 +336,40 @@ def compute_regime_streak(regimes):
             break
         streak += 1
     return current_regime, streak
+
+
+def apply_light_chart_layout(fig, **layout_kwargs):
+    axis_style = dict(
+        showgrid=True,
+        gridcolor=THEME["grid"],
+        zerolinecolor=THEME["grid"],
+        linecolor=THEME["border"],
+        tickfont=dict(color=THEME["muted"]),
+        title_font=dict(color=THEME["text"]),
+    )
+    default_legend = dict(bgcolor=THEME["transparent"], font=dict(color=THEME["text"]))
+    legend_override = layout_kwargs.pop("legend", {})
+    xaxis_override = layout_kwargs.pop("xaxis", {})
+    yaxis_override = layout_kwargs.pop("yaxis", {})
+
+    fig.update_layout(
+        template="plotly_white",
+        paper_bgcolor=THEME["transparent"],
+        plot_bgcolor=THEME["transparent"],
+        font=dict(color=THEME["text"]),
+        colorway=[
+            THEME["primary"],
+            THEME["danger"],
+            THEME["success"],
+            THEME["warning"],
+            THEME["secondary"],
+        ],
+        hoverlabel=dict(bgcolor=THEME["surface"], font_color=THEME["text"]),
+        legend={**default_legend, **legend_override},
+        xaxis={**axis_style, **xaxis_override},
+        yaxis={**axis_style, **yaxis_override},
+        **layout_kwargs,
+    )
 
 
 def main():
@@ -328,7 +422,7 @@ def main():
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
         st.markdown(
-            f'<div class="metric-container"><div class="metric-label">Current BTC Price</div><div class="metric-value">${current_price:,.2f}</div><div style="color: {"#3FB950" if change > 0 else "#F85149"}">{change:+,.2f} ({pct_change:+.2f}%)</div></div>',
+            f'<div class="metric-container"><div class="metric-label">Current BTC Price</div><div class="metric-value">${current_price:,.2f}</div><div style="color: {THEME["success"] if change > 0 else THEME["danger"]}">{change:+,.2f} ({pct_change:+.2f}%)</div></div>',
             unsafe_allow_html=True,
         )
     with col2:
@@ -394,13 +488,17 @@ def main():
                 low=view_data_ma["Low"],
                 close=view_data_ma["Close"],
                 name="BTC/USD",
+                increasing_line_color=THEME["success"],
+                decreasing_line_color=THEME["danger"],
+                increasing_fillcolor=THEME["success"],
+                decreasing_fillcolor=THEME["danger"],
             )
         )
         fig.add_trace(
             go.Scatter(
                 x=view_data_ma.index,
                 y=view_data_ma["MA50"],
-                line=dict(color="orange", width=1.5),
+                line=dict(color=THEME["warning"], width=1.5),
                 name="50-Day MA",
             )
         )
@@ -408,15 +506,13 @@ def main():
             go.Scatter(
                 x=view_data_ma.index,
                 y=view_data_ma["MA200"],
-                line=dict(color="cyan", width=1.5),
+                line=dict(color=THEME["secondary"], width=1.5),
                 name="200-Day MA",
             )
         )
 
-        fig.update_layout(
-            template="plotly_dark",
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
+        apply_light_chart_layout(
+            fig,
             margin=dict(l=20, r=20, t=20, b=20),
             xaxis_rangeslider_visible=False,
             height=600,
@@ -451,7 +547,7 @@ def main():
                             y=recent_hist["Close"],
                             mode="lines",
                             name="Historical Close",
-                            line=dict(color="#58A6FF", width=2),
+                            line=dict(color=THEME["secondary"], width=2),
                         )
                     )
 
@@ -466,7 +562,7 @@ def main():
                             y=pred_prices,
                             mode="lines",
                             name="AI Prediction",
-                            line=dict(color="#FF7B72", width=2, dash="dash"),
+                            line=dict(color=THEME["primary"], width=2.5, dash="dash"),
                         )
                     )
 
@@ -484,17 +580,15 @@ def main():
                             x=pred_dates + pred_dates[::-1],
                             y=list(upper_bound) + list(lower_bound[::-1]),
                             fill="toself",
-                            fillcolor="rgba(255, 123, 114, 0.18)",
-                            line=dict(color="rgba(255,255,255,0)"),
+                            fillcolor="rgba(37, 99, 235, 0.14)",
+                            line=dict(color=THEME["transparent"]),
                             hoverinfo="skip",
                             showlegend=True,
                         )
                     )
 
-                    fig_pred.update_layout(
-                        template="plotly_dark",
-                        paper_bgcolor="rgba(0,0,0,0)",
-                        plot_bgcolor="rgba(0,0,0,0)",
+                    apply_light_chart_layout(
+                        fig_pred,
                         height=500,
                         hovermode="x unified",
                         legend=dict(
@@ -564,7 +658,7 @@ def main():
                 y=regime_view["Close"],
                 mode="lines",
                 name="BTC Close",
-                line=dict(color="#94A3B8", width=1.3),
+                line=dict(color=THEME["secondary"], width=1.3),
                 opacity=0.45,
             )
         )
@@ -589,10 +683,8 @@ def main():
                 )
             )
 
-        fig_regime.update_layout(
-            template="plotly_dark",
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
+        apply_light_chart_layout(
+            fig_regime,
             height=520,
             hovermode="closest",
         )
@@ -607,10 +699,8 @@ def main():
                     marker_color=latest_probabilities["Color"],
                 )
             )
-            prob_chart.update_layout(
-                template="plotly_dark",
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
+            apply_light_chart_layout(
+                prob_chart,
                 height=360,
                 title="Current Regime Probabilities",
                 yaxis_tickformat=".0%",
@@ -628,10 +718,8 @@ def main():
                     texttemplate="%{text}",
                 )
             )
-            heatmap.update_layout(
-                template="plotly_dark",
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
+            apply_light_chart_layout(
+                heatmap,
                 height=360,
                 title="HMM Transition Matrix",
             )

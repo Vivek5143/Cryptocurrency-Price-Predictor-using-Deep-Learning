@@ -5,16 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitcoin Price Prediction</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+            --panel: rgba(255, 255, 255, 0.92);
+            --panel-border: #d6e4f5;
+            --text: #10233d;
+            --muted: #5b6b82;
+            --accent: #2563eb;
+            --accent-soft: rgba(37, 99, 235, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 48px 20px;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 18px 40px rgba(37, 99, 235, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-top: 0;
+            color: var(--muted);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: end;
+            margin: 24px 0 28px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 180px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--panel-border);
+            background: #fff;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.18);
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .chart-shell {
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid var(--panel-border);
+            background: #fff;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bitcoin Price Prediction</h1>
-    <label for="days">Enter Future Days:</label>
-    <input type="number" id="days" value="30">
-    <button onclick="getPrediction()">Predict</button>
+    <div class="container">
+        <h1>Bitcoin Price Prediction</h1>
+        <p>Generate future Bitcoin price projections with a clean light-theme dashboard.</p>
 
-    <canvas id="chart"></canvas>
+        <div class="controls">
+            <div>
+                <label for="days">Enter Future Days</label>
+                <input type="number" id="days" value="30">
+            </div>
+            <button onclick="getPrediction()">Predict</button>
+        </div>
+
+        <div class="chart-shell">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
 
     <script>
+        let chartInstance;
+
         async function getPrediction() {
             let days = document.getElementById("days").value;
             let response = await fetch('/predict', {
@@ -28,14 +132,37 @@
             let lstmPred = data.LSTM.map(d => d[0]);
             let gruPred = data.GRU.map(d => d[0]);
 
-            new Chart(document.getElementById("chart"), {
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(document.getElementById("chart"), {
                 type: "line",
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: "LSTM Prediction", data: lstmPred, borderColor: "blue", fill: false },
-                        { label: "GRU Prediction", data: gruPred, borderColor: "red", fill: false }
+                        { label: "LSTM Prediction", data: lstmPred, borderColor: "#2563eb", backgroundColor: "rgba(37, 99, 235, 0.08)", fill: false, tension: 0.3 },
+                        { label: "GRU Prediction", data: gruPred, borderColor: "#ef4444", backgroundColor: "rgba(239, 68, 68, 0.08)", fill: false, tension: 0.3 }
                     ]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "#10233d"
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: "#5b6b82" },
+                            grid: { color: "rgba(148, 163, 184, 0.2)" }
+                        },
+                        y: {
+                            ticks: { color: "#5b6b82" },
+                            grid: { color: "rgba(148, 163, 184, 0.2)" }
+                        }
+                    }
                 }
             });
         }
